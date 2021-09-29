@@ -6,38 +6,38 @@ class Stopwatch extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-	history: [
-        {
-          results: null
-        }
-      ],
-		timer: "Timer On",
-		timeStarted: true
+	sec:0,
+	times: []
     };
   }
-    startTimer() {
-    this.setState({
-      timer: "Timer On"
+    stopwatchTick=()=>{
+	this.setState({
+	  sec: this.state.sec + 1,
     });
+	}
+	
+    startTimer=()=>{
+	this.f=setInterval(this.stopwatchTick,1000);
   }
   
-    stopTimer() {
-    this.setState({
-      timer: "Timer Off"
+    stopTimer=()=>{
+	clearInterval(this.f);
+	this.setState({  
+	  times: [this.state.sec + " seconds, ",this.state.times],
+	  sec: 0,
     });
+	
   }
-  
   render() {
-  const history = this.state.history;
-  const timer = this.state.timer;
       return (
 	  <div>
-	  <div> Current Time: {timer} </div>
+	  <h1> Current Time: {this.state.sec} Seconds </h1>
 	 <div>
-		<button onClick={() => this.startTimer()}>Start Timer</button>
-		<button onClick={() => this.stopTimer()}>Stop Timer</button>
+		<button onClick={this.startTimer}>Start Timer</button>
+		<button onClick={this.stopTimer}>Stop Timer</button>
 	 </div>
-	 <div> Move History: </div>
+	 <div> Time History: </div>
+	 <div> {this.state.times} </div>
 	 </div>
       );
 	}
